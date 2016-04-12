@@ -53,7 +53,9 @@ class JiraController():
 
         response = requests.get(JIRA_API_URL,
             params = {
-                'jql': 'project="' + params['project_name'] + '" AND "Preview branch" ~ "' + params['release_version'] + '"'
+                'jql': 'project="' + params['project_name'] +
+                       '" AND type IN (Story, Defect, Task, Issue) AND labels = userfacing AND "Preview branch" ~ "'
+                       + params['release_version'] + '"'
             },
             headers = headers)
 
