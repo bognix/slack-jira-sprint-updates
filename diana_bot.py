@@ -55,11 +55,11 @@ class JiraController():
             params = {
                 'jql': 'project="' + params['project_name'] + '" AND "Preview branch" ~ "' + params['release_version'] + '"'
             },
-            headers = headers).json()
+            headers = headers)
 
         logging.info("\nFetching data from last " + params['days_before'] + " days for project " + params['project_name'])
 
-        return response
+        return response.json()
 
     def get_params(self, release_version):
         today = datetime.datetime.today().weekday()
@@ -97,17 +97,18 @@ class SlackUpdater(object):
                           'channel': self.slack_bot_channel,
                           'token': self.slack_bot_token,
                           'text': payload,
-                          'username': SLACK_BOT_NAME
+                          'username': SLACK_BOT_NAME,
+                          'icon_emoji': ':xwing:'
                       })
 
         logging.info("\nPosting to Slack: done")
 
-    def prepare_slack_update(self, tickets, team = '*Content West- Wing*'):
+    def prepare_slack_update(self, tickets, team = '*X-Wing*'):
         """
         Processes acquired results
         """
         if (len(tickets) == 0):
-            return team + ' :Nothing user facing'
+            return team + ': Nothing user facing'
 
         result = '```'
 
